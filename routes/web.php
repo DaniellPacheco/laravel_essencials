@@ -13,6 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Criando um grupo especifico para as rotas do site
+// - o método group recebe um função onde será implementado todas as rotas do "site"
+Route::namespace('App\Http\Controllers\Site')->group(function() {
+    Route::get('/', 'HomeController');
+
+    Route::get('/produtos', 'CategoryController@index');
+    Route::get('/produtos/{slug}', 'CategoryController@show');
+
+    Route::get('/blog', 'BlogController');
+
+    // Como é uma página estática, não precisamos de um controller e podemos retornar direto uma view
+    Route::view('/sobre', 'site.about.index');
+
+    Route::get('/contato', 'ContactController@index');
+    Route::post('/contato', 'ContactController@form');
 });
